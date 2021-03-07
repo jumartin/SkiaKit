@@ -3,13 +3,10 @@
 import Foundation
 import PackageDescription
 
+let dir = URL(fileURLWithPath: #file).deletingLastPathComponent().path
+
 let package = Package(
     name: "SkiaKit",
-    platforms: [
-	.macOS(.v10_15),
-	.iOS(.v13),
-	.tvOS(.v13),
-    ],    
     products: [
         .library(name: "SkiaKit", targets: ["SkiaKit"])
     ],
@@ -29,7 +26,10 @@ let package = Package(
 		name: "CSkiaSharp",
 		dependencies: ["CSkiaSharpBinary"],
 		cSettings: [
-		.headerSearchPath("include")
+		.headerSearchPath("include"),
+		],
+		linkerSettings: [
+			.unsafeFlags(["-L" + dir])
 		]
 	),
 	.binaryTarget (
