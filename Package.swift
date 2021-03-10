@@ -8,7 +8,8 @@ let dir = URL(fileURLWithPath: #file).deletingLastPathComponent().path
 let package = Package(
     name: "SkiaKit",
     products: [
-        .library(name: "SkiaKit", targets: ["SkiaKit"])
+        .library(name: "SkiaKit", targets: ["SkiaKit"]),
+		.library(name: "CSkiaSharp", targets: ["CSkiaSharp"])
     ],
     targets: [
 	.testTarget (
@@ -24,17 +25,12 @@ let package = Package(
 	),
 	.target (
 		name: "CSkiaSharp",
-		dependencies: ["CSkiaSharpBinary"],
 		cSettings: [
 		.headerSearchPath("include"),
 		],
 		linkerSettings: [
 			.unsafeFlags(["-L" + dir])
 		]
-	),
-	.binaryTarget (
-		name: "CSkiaSharpBinary",
-		path: "SkiaSharp.xcframework"
 	)
     ]
 )
