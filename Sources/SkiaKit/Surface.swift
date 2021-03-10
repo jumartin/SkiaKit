@@ -132,7 +132,7 @@ public final class Surface {
             context.handle,
             target.handle,
             surfaceOrigin == .topLeft ? gr_surfaceorigin_t(0) : gr_surfaceorigin_t(1),
-            sk_colortype_get_default_8888(),
+            sk_colortype_t(4),
             nil,
             surfaceProps == nil ? nil : surfaceProps!.handle
         )
@@ -241,6 +241,10 @@ public final class Surface {
             return ImageInfo.fromNative(l)
         }
         return nil
+    }
+
+    public func flush() {
+        sk_surface_flush(handle)
     }
     
     //sk_surface_new_backend_texture
