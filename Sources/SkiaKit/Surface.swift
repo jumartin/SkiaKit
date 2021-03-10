@@ -114,6 +114,14 @@ public final class Surface {
         }
         return nil
     }
+
+    public static func makeRenderTarget(context: GRContext, budgeted: Bool, info: ImageInfo, sampleCount: Int32 = 0, surfaceOrigin: GRSurfaceOrigin = .topLeft, surfaceProps: SurfaceProperties? = nil, shouldCreateWithMips: Bool = false) -> Surface? {
+        var _info = info.toNative()
+        if let h = sk_surface_new_render_target(context.handle, budgeted, &_info, sampleCount, surfaceOrigin == .topLeft ? gr_surfaceorigin_t(0) : gr_surfaceorigin_t(1), surfaceProps == nil ? nil : surfaceProps!.handle, shouldCreateWithMips) {
+            return Surface (handle: h)
+        }
+        return nil
+    }
     
     /**
      * Returns `Canvas` that draws into `Surface`. Subsequent calls return the same `Canvas`.
@@ -216,7 +224,6 @@ public final class Surface {
     
     //sk_surface_new_backend_texture
     //sk_surface_new_backend_texture_as_render_target
-    //sk_surface_new_render_target
     //sk_surface_unref
 
 }
