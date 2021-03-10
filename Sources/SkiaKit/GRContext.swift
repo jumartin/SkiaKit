@@ -15,6 +15,47 @@ public enum GRSurfaceOrigin {
     case bottomLeft
 }
 
+public typealias CString = UnsafePointer<UInt8>
+
+public typealias GRGLGetProcCallback = (_ ctx: UnsafeMutableRawPointer?, _ name: CString?) -> gr_gl_func_ptr
+
+public final class GRGLInterface {
+    var handle: OpaquePointer
+    
+    public init (handle: OpaquePointer)
+    {
+        self.handle = handle
+    }
+
+    public static func createNativeInterface() -> GRGLInterface? {
+        guard let ptr = gr_glinterface_create_native_interface() else {
+            return nil
+        }
+
+        return GRGLInterface(handle: ptr)
+    }
+
+    // public static func assembleGLInterface(ctx: UnsafeMutableRawPointer? = nil, getProc: GRGLGetProcCallback) -> GRGLInterface? {
+    //     let ptr = gr_glinterface_assemble_gl_interface(ctx, getProc)
+    
+    //     guard ptr != nil else {
+    //         return nil
+    //     }
+
+    //     return GRGLInterface(handle: ptr!)
+    // }
+
+    // public static func assembleGLESInterface(ctx: UnsafeMutableRawPointer? = nil, getProc: GRGLGetProcCallback) -> GRGLInterface? {
+    //     let ptr = gr_glinterface_assemble_gles_interface(ctx, getProc)
+    
+    //     guard ptr != nil else {
+    //         return nil
+    //     }
+
+    //     return GRGLInterface(handle: ptr!)
+    // }
+}
+
 public final class GRContext {
     var handle: OpaquePointer
     
@@ -23,12 +64,8 @@ public final class GRContext {
         self.handle = handle
     }
 
-    // Right now cannot be called with any arguments.
-    //
-    // This is the same as passing 'nil', where it will translate into GL calls for the current
-    // context.
-    public static func makeGL() -> GRContext? {
-        guard let grContextPtr = gr_context_make_gl(nil) else {
+    public static func makeGL(interface: GRGLInterface? = nil) -> GRContext? {
+        guard let grContextPtr = gr_context_make_gl(interface != nil ? interface!.handle : nil) else {
             return nil
         }
 
