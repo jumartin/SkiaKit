@@ -29,6 +29,10 @@ public final class Surface {
     {
         self.handle = handle
     }
+
+    deinit {
+        sk_surface_unref(handle)
+    }
     
     /**
      * Allocates raster `Surface`. `Canvas` returned by `Surface` draws directly into pixels.
@@ -121,6 +125,23 @@ public final class Surface {
             return Surface (handle: h)
         }
         return nil
+    }
+
+    public static func makeBackendRenderTarget(context: GRContext, target: GRBackendRenderTarget, surfaceOrigin: GRSurfaceOrigin = .topLeft, surfaceProps: SurfaceProperties? = nil) -> Surface? {
+        let h = sk_surface_new_backend_render_target(
+            context.handle,
+            target.handle,
+            surfaceOrigin == .topLeft ? gr_surfaceorigin_t(0) : gr_surfaceorigin_t(1),
+            sk_colortype_get_default_8888(),
+            nil,
+            surfaceProps == nil ? nil : surfaceProps!.handle
+        )
+        
+        guard h != nil else {
+            return nil
+        }
+
+        return Surface (handle: h!)
     }
     
     /**
@@ -223,7 +244,4 @@ public final class Surface {
     }
     
     //sk_surface_new_backend_texture
-    //sk_surface_new_backend_texture_as_render_target
-    //sk_surface_unref
-
 }

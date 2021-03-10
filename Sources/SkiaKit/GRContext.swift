@@ -65,10 +65,34 @@ public final class GRContext {
     }
 
     public static func makeGL(interface: GRGLInterface? = nil) -> GRContext? {
-        guard let grContextPtr = gr_context_make_gl(interface != nil ? interface!.handle : nil) else {
+        guard let handle = gr_context_make_gl(interface != nil ? interface!.handle : nil) else {
             return nil
         }
 
-        return GRContext(handle: grContextPtr)
+        return GRContext(handle: handle)
+    }
+}
+
+public final class GRBackendRenderTarget {
+    var handle: OpaquePointer
+
+    // https://github.com/google/skia/blob/master/src/gpu/gl/GrGLDefines.h#L519
+    static let rgba8: CUnsignedInt = 0x8058
+
+    init (handle: OpaquePointer) {
+        self.handle = handle
+    }
+
+    public static func makeGL(width: CInt, height: CInt, samples: CInt, stencils: CInt, fFBOID: CUnsignedInt) -> GRBackendRenderTarget? {
+        var info = gr_gl_framebufferinfo_t(
+            fFBOID: fFBOID,
+            fFormat: rgba8
+        )
+
+        guard let handle = gr_backendrendertarget_new_gl(width, height, samples, stencils, &info) else {
+            return nil
+        }
+
+        return GRBackendRenderTarget(handle: handle)
     }
 }
