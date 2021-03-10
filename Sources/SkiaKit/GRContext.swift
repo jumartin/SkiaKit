@@ -71,6 +71,10 @@ public final class GRContext {
 
         return GRContext(handle: handle)
     }
+
+    public func flush() {
+        gr_context_flush(handle)
+    }
 }
 
 public final class GRBackendRenderTarget {
