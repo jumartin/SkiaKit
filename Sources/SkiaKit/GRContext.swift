@@ -104,3 +104,21 @@ public final class GRBackendRenderTarget {
         return GRBackendRenderTarget(handle: handle)
     }
 }
+
+public typealias GRGLTextureInfo = gr_gl_textureinfo_t
+
+public final class GRBackendTexture {
+    var handle: OpaquePointer
+
+    init (handle: OpaquePointer) {
+        self.handle = handle
+    }
+
+    public static func makeGL(width: CInt, height: CInt, mipmapped: Bool, glInfo: inout GRGLTextureInfo) -> GRBackendTexture? {
+        guard let handle = gr_backendtexture_new_gl(width, height, mipmapped, &glInfo) else {
+            return nil
+        }
+
+        return GRBackendTexture(handle: handle)
+    }
+}

@@ -146,6 +146,23 @@ public final class Image {
             }
         }
     }
+
+    public static func fromAdoptedTexture(context: GRContext, texture: GRBackendTexture, surfaceOrigin: GRSurfaceOrigin = .topLeft) -> Image? {
+        guard let ptr = sk_image_new_from_adopted_texture(
+            context.handle,
+            texture.handle,
+            surfaceOrigin == .topLeft ? gr_surfaceorigin_t(0) : gr_surfaceorigin_t(1),
+            sk_colortype_t(4),
+            sk_alphatype_t(3),
+            nil
+        ) else {
+            return nil
+        }
+
+        return Image(handle: ptr)
+    }
+
+
     deinit {
         sk_image_unref(handle)
     }
