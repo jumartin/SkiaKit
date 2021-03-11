@@ -75,6 +75,10 @@ public final class GRContext {
     public func flush() {
         gr_context_flush(handle)
     }
+
+    public func resetContext(value: UInt32 = 0xffffffff) {
+        gr_context_reset_context(handle, value)
+    }
 }
 
 public final class GRBackendRenderTarget {
