@@ -18,6 +18,20 @@
 		</dict>
 		<dict>
 			<key>LibraryIdentifier</key>
+			<string>tvos-x86_64-simulator</string>
+			<key>LibraryPath</key>
+			<string>libSkiaSharp.framework</string>
+			<key>SupportedArchitectures</key>
+			<array>
+				<string>x86_64</string>
+			</array>
+			<key>SupportedPlatform</key>
+			<string>tvos</string>
+			<key>SupportedPlatformVariant</key>
+			<string>simulator</string>
+		</dict>
+		<dict>
+			<key>LibraryIdentifier</key>
 			<string>ios-x86_64-simulator</string>
 			<key>LibraryPath</key>
 			<string>libSkiaSharp.framework</string>
@@ -53,20 +67,6 @@
 			</array>
 			<key>SupportedPlatform</key>
 			<string>tvos</string>
-		</dict>
-		<dict>
-			<key>LibraryIdentifier</key>
-			<string>tvos-x86_64-simulator</string>
-			<key>LibraryPath</key>
-			<string>libSkiaSharp.framework</string>
-			<key>SupportedArchitectures</key>
-			<array>
-				<string>x86_64</string>
-			</array>
-			<key>SupportedPlatform</key>
-			<string>tvos</string>
-			<key>SupportedPlatformVariant</key>
-			<string>simulator</string>
 		</dict>
 	</array>
 	<key>CFBundlePackageType</key>
